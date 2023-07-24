@@ -1,8 +1,9 @@
-import random
 import os
 import copy
-from time import sleep
+import keyboard
 import snake_class
+import aple_class
+from time import sleep
 
 mapa=[
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -22,11 +23,7 @@ mapa=[
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
 
 mapa_copy=copy.deepcopy(mapa)
-
-def spaw_aple():
-    x_aple,y_aple=random.randint(1,(len(mapa)-2)),random.randint(1,(len(mapa[0])-2))
-    mapa[x_aple][y_aple]=2
-
+time=0.60
 def map_draw():
     map_print=''
     for linha in mapa:
@@ -42,11 +39,63 @@ def map_draw():
                 map_print+='@'
     return map_print
 
-spaw_aple()
-snake1=snake_class.Snake()
-snake1.setPosition(mapa)
-
 while True:
-    print(map_draw())
-    os.system('cls')
-    #mapa=copy.deepcopy(mapa_copy)
+    snake1=snake_class.Snake()
+    snake1.setPosition(mapa)
+    aple=aple_class.Aple()
+    aple.setPosition(mapa)
+    
+    while True:
+        print(map_draw())
+        print(f'Pontos: {snake1.pontos}')
+        print(snake1.live)
+        event=keyboard.read_event(True)
+
+        if event.event_type==keyboard.KEY_DOWN and event.name=='w':
+            while snake1.live:
+                snake1.moverCima(mapa)
+                print(map_draw())
+                sleep(time)
+                os.system('cls')
+
+        if event.event_type==keyboard.KEY_DOWN and event.name=='s':
+            while snake1.live:
+                snake1.moverBaixo(mapa)
+                print(map_draw())
+                sleep(time)
+                os.system('cls')
+
+        if event.event_type==keyboard.KEY_DOWN and event.name=='a':
+            while snake1.live:
+                snake1.moverEsquerda(mapa)
+                print(map_draw())
+                sleep(time)
+                os.system('cls')
+
+        if event.event_type==keyboard.KEY_DOWN and event.name=='d':
+            while snake1.live:
+                snake1.moverDireita(mapa)
+                print(map_draw())
+                sleep(time)
+                os.system('cls')
+
+        '''
+        if event.event_type==keyboard.KEY_DOWN and event.name=='s':
+            snake1.moverBaixo(mapa)
+
+        elif event.event_type==keyboard.KEY_DOWN and event.name=='d':
+            snake1.moverDireita(mapa)
+
+        elif event.event_type==keyboard.KEY_DOWN and event.name=='a':
+            snake1.moverEsquerda(mapa)
+        '''
+        
+        if snake1.live==False:
+            print('Morreu')
+            mapa=copy.deepcopy(mapa_copy)
+            break
+        
+        if mapa[aple.position[0]][aple.position[1]]!=2:
+            aple.setPosition(mapa)
+
+        os.system('cls')
