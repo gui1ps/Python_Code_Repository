@@ -23,7 +23,7 @@ mapa=[
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
 
 mapa_copy=copy.deepcopy(mapa)
-time=0.60
+time=0.125
 def map_draw():
     map_print=''
     for linha in mapa:
@@ -40,47 +40,91 @@ def map_draw():
     return map_print
 
 while True:
+    mapa=copy.deepcopy(mapa_copy)
+    keys=['a','w','s','d']
     snake1=snake_class.Snake()
     snake1.setPosition(mapa)
     aple=aple_class.Aple()
     aple.setPosition(mapa)
-    
+    a_pressed=False
+    s_pressed=False
+    d_pressed=False
+    w_pressed=False
+    print(map_draw())
+    event=keyboard.read_event(True)
+    if event.name not in keys:
+        continue
     while True:
         print(map_draw())
         print(f'Pontos: {snake1.pontos}')
         print(snake1.live)
-        event=keyboard.read_event(True)
 
-        if event.event_type==keyboard.KEY_DOWN and event.name=='w':
+        if event.event_type==keyboard.KEY_DOWN and event.name=='w' or w_pressed:
+            w_pressed=False
             while snake1.live:
                 snake1.moverCima(mapa)
                 print(map_draw())
-                sleep(time)
                 os.system('cls')
-
-        if event.event_type==keyboard.KEY_DOWN and event.name=='s':
-            while snake1.live:
-                snake1.moverBaixo(mapa)
-                print(map_draw())
                 sleep(time)
-                os.system('cls')
+                if keyboard.is_pressed('a'):
+                    a_pressed=True
+                    break
+                if keyboard.is_pressed('d'):
+                    d_pressed=True
+                    break
+                if keyboard.is_pressed('s'):
+                    pass 
 
-        if event.event_type==keyboard.KEY_DOWN and event.name=='a':
-            while snake1.live:
-                snake1.moverEsquerda(mapa)
-                print(map_draw())
-                sleep(time)
-                os.system('cls')
-
-        if event.event_type==keyboard.KEY_DOWN and event.name=='d':
+        if event.event_type==keyboard.KEY_DOWN and event.name=='d' or d_pressed:
+            d_pressed=False
             while snake1.live:
                 snake1.moverDireita(mapa)
                 print(map_draw())
-                sleep(time)
                 os.system('cls')
+                sleep(time)
+                if keyboard.is_pressed('w'):
+                    w_pressed=True
+                    break
+                if keyboard.is_pressed('s'):
+                    s_pressed=True
+                    break
+                if keyboard.is_pressed('a'):
+                    pass 
+        
+        if event.event_type==keyboard.KEY_DOWN and event.name=='a' or a_pressed:
+            a_pressed=False
+            while snake1.live:
+                snake1.moverEsquerda(mapa)
+                print(map_draw())
+                os.system('cls')
+                sleep(time)
+                if keyboard.is_pressed('w'):
+                    w_pressed=True
+                    break
+                if keyboard.is_pressed('s'):
+                    s_pressed=True
+                    break
+                if keyboard.is_pressed('d'):
+                    pass 
 
+        if event.event_type==keyboard.KEY_DOWN and event.name=='s' or s_pressed:
+            s_pressed=False
+            while snake1.live:
+                snake1.moverBaixo(mapa)
+                print(map_draw())
+                os.system('cls')
+                sleep(time)
+                if keyboard.is_pressed('a'):
+                    a_pressed=True
+                    break
+                if keyboard.is_pressed('d'):
+                    d_pressed=True
+                    break
+                if keyboard.is_pressed('w'):
+                    pass 
+                
         '''
-        if event.event_type==keyboard.KEY_DOWN and event.name=='s':
+        elif event.event_type==keyboard.KEY_DOWN and event.name=='s':
             snake1.moverBaixo(mapa)
 
         elif event.event_type==keyboard.KEY_DOWN and event.name=='d':
@@ -92,7 +136,6 @@ while True:
         
         if snake1.live==False:
             print('Morreu')
-            mapa=copy.deepcopy(mapa_copy)
             break
         
         if mapa[aple.position[0]][aple.position[1]]!=2:

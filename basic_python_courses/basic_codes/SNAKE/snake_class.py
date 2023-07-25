@@ -1,6 +1,5 @@
 import random
 
-
 class Snake:
     def __init__(self):
         self.position=None
@@ -36,7 +35,8 @@ class Snake:
         elif mapa[self.position[0]][self.position[1]]==1 or mapa[self.position[0]][self.position[1]]==3:
             self.live=False
         else:
-           mapa[self.position[0]][self.position[1]]=3
+            mapa[self.position[0]][self.position[1]]=3
+            
     
     def moverEsquerda(self,mapa):
         self.position[1]-=1
