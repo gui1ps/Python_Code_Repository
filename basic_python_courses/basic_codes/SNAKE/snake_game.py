@@ -40,6 +40,17 @@ def map_draw():
                 map_print+='@'
     return map_print
 
+def map_clean():
+    for i in range(1,(len(mapa)-1)):
+        for l in range(1,(len(mapa[0])-1)):
+            if mapa[i][l]==3:
+                if [i,l] not in snake1.getOldPostion() and tuple([i,l])!= tuple(snake1.getPosition()):
+                    mapa[i][l]=0
+
+def map_mark():
+    for i in snake1.getBody():
+        mapa[i[0]][i[1]]=3
+
 while True:
     mapa=copy.deepcopy(mapa_copy)
     keys=['a','w','s','d']
@@ -143,16 +154,17 @@ while True:
         elif event.event_type==keyboard.KEY_DOWN and event.name=='a':
             snake1.moverEsquerda(mapa)
         
-        
         if snake1.live==False:
             break
         
+
         if mapa[aple.position[0]][aple.position[1]]!=2:
             aple.setPosition(mapa)
 
-        
         if len(snake1.getBody())>snake1.getPoints():
            del snake1.body_positions[0]
         
-
+        map_clean()
+        map_mark()
+    
         os.system('cls')

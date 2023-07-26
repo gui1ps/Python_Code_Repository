@@ -29,6 +29,7 @@ class Snake:
         self.old_position=self.getPosition()[0],self.getPosition()[1]
         if self.pontos>0:
             self.body_positions.append(list(self.old_position))
+        
         self.position[0]-=1
 
         if [self.old_position[0],self.old_position[1]] not in self.body_positions:
@@ -100,7 +101,3 @@ class Snake:
             self.live=False
         else:
            mapa[self.position[0]][self.position[1]]=3
-    
-    
-
-
