@@ -24,6 +24,7 @@ mapa=[
 
 mapa_copy=copy.deepcopy(mapa)
 time=0.125
+
 def map_draw():
     map_print=''
     for linha in mapa:
@@ -46,19 +47,24 @@ while True:
     snake1.setPosition(mapa)
     aple=aple_class.Aple()
     aple.setPosition(mapa)
+    '''
     a_pressed=False
     s_pressed=False
     d_pressed=False
     w_pressed=False
+    '''
     print(map_draw())
     event=keyboard.read_event(True)
     if event.name not in keys:
         continue
     while True:
         print(map_draw())
-        print(f'Pontos: {snake1.pontos}')
-        print(snake1.live)
-
+        print(f'Pontos: {snake1.getPoints()}')
+        print(snake1.getPosition())
+        print(snake1.getOldPostion())
+        print(snake1.getBody())
+        event=keyboard.read_event(True)
+        '''
         if event.event_type==keyboard.KEY_DOWN and event.name=='w' or w_pressed:
             w_pressed=False
             while snake1.live:
@@ -122,8 +128,12 @@ while True:
                     break
                 if keyboard.is_pressed('w'):
                     pass 
-                
         '''
+                
+        
+        if event.event_type==keyboard.KEY_DOWN and event.name=='w':
+            snake1.moverCima(mapa)
+
         elif event.event_type==keyboard.KEY_DOWN and event.name=='s':
             snake1.moverBaixo(mapa)
 
@@ -132,13 +142,17 @@ while True:
 
         elif event.event_type==keyboard.KEY_DOWN and event.name=='a':
             snake1.moverEsquerda(mapa)
-        '''
+        
         
         if snake1.live==False:
-            print('Morreu')
             break
         
         if mapa[aple.position[0]][aple.position[1]]!=2:
             aple.setPosition(mapa)
+
+        
+        if len(snake1.getBody())>snake1.getPoints():
+           del snake1.body_positions[0]
+        
 
         os.system('cls')
