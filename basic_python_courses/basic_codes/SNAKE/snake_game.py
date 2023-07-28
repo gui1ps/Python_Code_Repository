@@ -52,96 +52,20 @@ def map_mark():
         mapa[i[0]][i[1]]=3
 
 while True:
+    os.system('cls')
     mapa=copy.deepcopy(mapa_copy)
-    keys=['a','w','s','d']
     snake1=snake_class.Snake()
     snake1.setPosition(mapa)
     aple=aple_class.Aple()
     aple.setPosition(mapa)
-    '''
-    a_pressed=False
-    s_pressed=False
-    d_pressed=False
-    w_pressed=False
-    '''
     print(map_draw())
-    event=keyboard.read_event(True)
-    if event.name not in keys:
-        continue
+    print('ESC TO START')
+    keyboard.wait('esc')
+
     while True:
         print(map_draw())
-        print(f'Pontos: {snake1.getPoints()}')
-        print(snake1.getPosition())
-        print(snake1.getOldPostion())
-        print(snake1.getBody())
         event=keyboard.read_event(True)
-        '''
-        if event.event_type==keyboard.KEY_DOWN and event.name=='w' or w_pressed:
-            w_pressed=False
-            while snake1.live:
-                snake1.moverCima(mapa)
-                print(map_draw())
-                os.system('cls')
-                sleep(time)
-                if keyboard.is_pressed('a'):
-                    a_pressed=True
-                    break
-                if keyboard.is_pressed('d'):
-                    d_pressed=True
-                    break
-                if keyboard.is_pressed('s'):
-                    pass 
-
-        if event.event_type==keyboard.KEY_DOWN and event.name=='d' or d_pressed:
-            d_pressed=False
-            while snake1.live:
-                snake1.moverDireita(mapa)
-                print(map_draw())
-                os.system('cls')
-                sleep(time)
-                if keyboard.is_pressed('w'):
-                    w_pressed=True
-                    break
-                if keyboard.is_pressed('s'):
-                    s_pressed=True
-                    break
-                if keyboard.is_pressed('a'):
-                    pass 
-        
-        if event.event_type==keyboard.KEY_DOWN and event.name=='a' or a_pressed:
-            a_pressed=False
-            while snake1.live:
-                snake1.moverEsquerda(mapa)
-                print(map_draw())
-                os.system('cls')
-                sleep(time)
-                if keyboard.is_pressed('w'):
-                    w_pressed=True
-                    break
-                if keyboard.is_pressed('s'):
-                    s_pressed=True
-                    break
-                if keyboard.is_pressed('d'):
-                    pass 
-
-        if event.event_type==keyboard.KEY_DOWN and event.name=='s' or s_pressed:
-            s_pressed=False
-            while snake1.live:
-                snake1.moverBaixo(mapa)
-                print(map_draw())
-                os.system('cls')
-                sleep(time)
-                if keyboard.is_pressed('a'):
-                    a_pressed=True
-                    break
-                if keyboard.is_pressed('d'):
-                    d_pressed=True
-                    break
-                if keyboard.is_pressed('w'):
-                    pass 
-        '''
-                
-        
+          
         if event.event_type==keyboard.KEY_DOWN and event.name=='w':
             snake1.moverCima(mapa)
 
@@ -156,7 +80,6 @@ while True:
         
         if snake1.live==False:
             break
-        
 
         if mapa[aple.position[0]][aple.position[1]]!=2:
             aple.setPosition(mapa)
@@ -166,5 +89,4 @@ while True:
         
         map_clean()
         map_mark()
-    
         os.system('cls')
