@@ -6,4 +6,3 @@ try:
    withdraw(x)
 except ValueError:
    print('Please enter a number')
-
