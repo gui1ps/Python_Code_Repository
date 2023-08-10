@@ -1,6 +1,5 @@
 import socket
 import time
-
 class server:
     def __init__(self):
         self.host='localhost'
@@ -29,17 +28,28 @@ class server:
                         
                         if (str(login_tuple[0]) in self.users_credentials) and (login_tuple[1]==self.users_credentials[str(login_tuple[0])]):
                             conn.send('LOGADO COM SUCESSO'.encode())
-                            user_file=open(f'{login_tuple[0]}.txt','a')
                             while True:
-                                resp=conn.recv(1024).decode()
-                                resp_list=list(resp.split(':'))
 
-                                if not resp:
-                                    continue
-                                
-                                if resp_list[2]=='a':
-                                    user_file.write(f'{str(resp_list[0])}:{str(resp_list[1])}')
-                                    user_file.close()
+                                try:
+                                    resp=conn.recv(1024).decode()
+                                except:
+                                    print('aguardando'.upper())
+
+                                try:
+                                    resp_list=list(resp.split(':'))
+                                    if resp_list[2]=='a':
+                                        user_file=open(f'{login_tuple[0]}.txt','a')
+                                        user_file.write(f'\n{str(resp_list[0])}:{str(resp_list[1])}')
+                                except:
+                                    if resp=='r':
+                                        user_file=open(f'{login_tuple[0]}.txt','r')
+                                        lines=[l for l in user_file.readlines()]
+                                        str_lines=''
+                                        for i in lines:
+                                            str_lines+=i
+                                        conn.send(str_lines.encode())
+                                        print(str_lines)
+                                user_file.close()
                         else:
                             conn.send('USUÁRIO OU SENHA INCORRETOS'.encode())
                         
@@ -51,10 +61,9 @@ class server:
                             conn.send('REGISTRADO COM SUCESSO'.encode())
                         else:
                             conn.send('USUÁRIO JÁ EXISTE'.encode())
-                        print(self.users_credentials)
-                
+                        print(self.users_credentials)     
         except:
-            pass
+            print('aguardando conexão'.upper())
     
 if __name__=='__main__':
     print('INICIANDO')

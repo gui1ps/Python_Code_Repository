@@ -1,1 +1,3 @@
-Joia:5pastel:8
+Chave inglesa:7
+amaciante:3
+Teste:2
